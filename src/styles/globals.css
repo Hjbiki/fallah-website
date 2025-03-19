@@ -1,0 +1,692 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 29, 59, 96;
+  --cardboard-color: 212, 167, 106;
+  --blueprint-color: 44, 62, 80;
+  --fabric-brown: 120, 76, 40;
+  --fabric-blue: 42, 85, 112;
+  --stitch-color: 139, 90, 43;
+  --button-shadow: 0 6px 0 rgba(139, 90, 43, 0.8);
+  --lbp-blue: 0, 172, 214;
+  --lbp-green: 22, 193, 22;
+  --lbp-pink: 199, 12, 98;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  color: white;
+  background-color: rgb(var(--background-rgb));
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+  /* LBP style background with subtle blueprint grid pattern */
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* LittleBigPlanet Base Styles */
+.lbp-bg {
+  background-color: rgba(242, 233, 217, 0.8);
+  background-image: url('/images/paper-texture.jpg');
+  background-blend-mode: overlay;
+  border-radius: 12px;
+  border: 4px solid rgba(139, 90, 43, 0.8);
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.lbp-bg::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 2px dashed rgba(139, 90, 43, 0.4);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* LittleBigPlanet Logo Style */
+.lbp-title {
+  font-weight: 800;
+  color: rgb(var(--lbp-blue));
+  text-shadow: 
+    -4px -4px 0 white,
+    4px -4px 0 white,
+    -4px 4px 0 white,
+    4px 4px 0 white,
+    0px -4px 0 white,
+    0px 4px 0 white,
+    -4px 0px 0 white,
+    4px 0px 0 white,
+    0 5px 8px rgba(0, 0, 0, 0.2);
+  transform: rotate(1deg) scale(1.02);
+  letter-spacing: 0.02em;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease;
+}
+
+.lbp-title:hover {
+  transform: rotate(-1deg) scale(1.05);
+}
+
+.lbp-title .subtitle {
+  font-weight: 500;
+  font-size: 0.4em;
+  color: #444;
+  margin-top: 0.5em;
+  margin-right: 0.2em;
+  text-shadow: 
+    -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white,
+    0px -2px 0 white,
+    0px 2px 0 white,
+    -2px 0px 0 white,
+    2px 0px 0 white;
+  letter-spacing: 0;
+}
+
+/* Cardboard Container Styles (without torn edges) */
+.cardboard-container {
+  position: relative;
+  background-color: transparent;
+  margin: 0;
+  z-index: 1;
+}
+
+.cardboard {
+  position: relative;
+  background-image: url('/images/cardboard-texture.png');
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  box-shadow: 
+    0 6px 10px rgba(0, 0, 0, 0.2),
+    inset 0 0 15px rgba(0, 0, 0, 0.1);
+  transform: rotateX(3deg);
+  transform-origin: center top;
+  z-index: 1;
+  padding: 1rem;
+}
+
+/* Header specific styles */
+.cardboard-header {
+  padding: 0;
+  margin: 0;
+}
+
+.cardboard-header .cardboard {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Footer specific styles */
+.cardboard-footer {
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cardboard-footer .cardboard {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0;
+  transform: rotateX(0);
+}
+
+/* Content wrapper to eliminate gaps */
+.content-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  height: 100%;
+  padding: 0.5rem 0;
+  max-height: calc(100vh - 110px); /* Adjust based on header + footer height */
+}
+
+/* Side lighting effect */
+.cardboard-lighting {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* LittleBigPlanet sticker/bubble style */
+.lbp-bubble {
+  position: relative;
+  background-color: white;
+  border-radius: 50%;
+  border: 4px solid #4A4A4A;
+  padding: 12px 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+  transform: rotate(-3deg);
+  transition: transform 0.3s ease;
+}
+
+.lbp-bubble:hover {
+  transform: rotate(3deg) scale(1.05);
+}
+
+.lbp-bubble::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 999px 999px 0 0;
+  z-index: 1;
+}
+
+/* Vertical card styles - Wider with additional spacing */
+.vertical-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 18px solid rgba(139, 90, 43, 0.9);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+  background-image: url('/images/cardboard-texture.png');
+  background-size: 256px 256px;
+  background-repeat: repeat;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  max-width: 350px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Cardboard border with texture */
+.vertical-card::before {
+  content: '';
+  position: absolute;
+  top: -18px;
+  left: -18px;
+  right: -18px;
+  bottom: -18px;
+  background-image: url('/images/cardboard-texture.png');
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  z-index: -1;
+  opacity: 0.9;
+  border-radius: 30px;
+}
+
+.vertical-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.vertical-card .card-image {
+  
+  height: 350px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vertical-card .card-image img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.vertical-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.vertical-card .card-content {
+  padding: 1.5rem;
+  position: relative;
+  background: rgba(29, 59, 96, 0.8);
+  flex-grow: 1;
+  border-top: 6px solid rgba(139, 90, 43, 0.9);
+}
+
+.vertical-card .card-title {
+  color: rgb(var(--lbp-pink));
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
+}
+
+.vertical-card .card-description {
+  color: white;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.vertical-card .card-tag {
+  position: absolute;
+  top: -12px;
+  right: 10px;
+  background: #f9aa2a;
+  color: black;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+/* Outer card label styled like a tag */
+.card-outer-label {
+  display: inline-block;
+  position: absolute;
+  top: -25px;
+  right: 20px;
+  color: rgb(var(--lbp-green));
+  font-weight: bold;
+  font-size: 1.5rem;
+  z-index: 10;
+  text-shadow: 
+    -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white,
+    0px -2px 0 white,
+    0px 2px 0 white,
+    -2px 0px 0 white,
+    2px 0px 0 white,
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  transform: rotate(-2deg);
+}
+
+.card-outer-label.resources {
+  color: rgb(var(--lbp-green));
+  transform: rotate(2deg);
+}
+
+/* Card wrapper with position relative for label positioning */
+.card-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+}
+
+/* Category label styled like a paper cutout */
+.category-label {
+  display: inline-block;
+  position: relative;
+  margin: 0 auto 1rem;
+  padding: 6px 20px;
+  background-color: rgb(var(--cardboard-color));
+  color: rgb(var(--blueprint-color));
+  font-weight: bold;
+  border: 3px solid #4A4A4A;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 1.2rem;
+  transform: rotate(-2deg);
+}
+
+.category-label::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 7px 7px 0 0;
+  pointer-events: none;
+}
+
+.category-label::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background-image: url('/images/cardboard-texture.png');
+  background-size: 100px 100px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.cardboard-bg {
+  background-color: rgb(var(--cardboard-color));
+  background-image: url('/images/cardboard-texture.jpg');
+  background-size: cover;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.blueprint-bg {
+  background-color: rgb(var(--blueprint-color));
+  background-image: url('/images/blueprint-pattern.jpg');
+  background-size: cover;
+  color: white;
+}
+
+.paper-texture {
+  background-color: #F2E9D9;
+  background-image: url('/images/paper-texture.jpg');
+  background-size: cover;
+}
+
+.fabric-texture {
+  position: relative;
+  overflow: hidden;
+}
+
+.fabric-texture::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/images/fabric-texture.jpg');
+  background-size: cover;
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.cut-corners {
+  clip-path: polygon(
+    0% 10px,
+    10px 0%,
+    calc(100% - 10px) 0%,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0% calc(100% - 10px)
+  );
+}
+
+/* 3D Box Styles */
+.transform-style-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-out;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-15 {
+  transform: rotateY(15deg);
+}
+
+.rotate-x-5 {
+  transform: rotateX(5deg);
+}
+
+.rotate-y-90 {
+  transform: rotateY(90deg);
+}
+
+.rotate-x-90 {
+  transform: rotateX(90deg);
+}
+
+.origin-top {
+  transform-origin: top;
+}
+
+.origin-right {
+  transform-origin: right;
+}
+
+.translate-y-6 {
+  transform: translateZ(-6px);
+}
+
+.translate-x-6 {
+  transform: translateX(-6px);
+}
+
+.game-box-3d:hover .box-container {
+  transform: rotateY(25deg) rotateX(10deg) scale(1.05);
+}
+
+.blueprint-box .box-front {
+  background-color: rgb(var(--blueprint-color));
+  border-radius: 8px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 0, 255, 0.1);
+}
+
+.sackboy-box .box-front {
+  background-color: rgb(var(--cardboard-color));
+  border-radius: 8px;
+  border: 3px solid rgba(139, 90, 43, 0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.text-shadow-light {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow-dark {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+@layer components {
+  .card {
+    @apply cardboard-bg rounded-lg p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl;
+  }
+
+  .lbp-button {
+    @apply bg-cardboard text-dark font-bold py-1 px-4 rounded-full border-4 border-dark shadow-lg transform transition-transform duration-150 hover:scale-105 active:scale-95;
+    box-shadow: var(--button-shadow);
+    position: relative;
+    top: 0;
+  }
+
+  .lbp-card {
+    @apply cardboard-bg p-4 rounded-xl border-4 border-dark shadow-xl;
+    position: relative;
+  }
+}
+
+.stitches {
+  background-image: linear-gradient(45deg, transparent 48%, var(--stitch-color) 48%, var(--stitch-color) 52%, transparent 52%);
+  background-size: 10px 10px;
+}
+
+.stitches-vertical {
+  background-image: linear-gradient(135deg, transparent 48%, var(--stitch-color) 48%, var(--stitch-color) 52%, transparent 52%);
+  background-size: 10px 10px;
+}
+
+.lbp-button:active {
+  box-shadow: 0 2px 0 rgba(139, 90, 43, 0.8);
+  top: 2px;
+}
+
+.lbp-card::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  border: 2px dashed var(--stitch-color);
+  border-radius: 0.5rem;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* LittleBigPlanet Nav Button */
+.lbp-nav-button {
+  @apply relative py-1 px-4 rounded-full font-bold transition-transform;
+  background-color: rgb(var(--cardboard-color));
+  border: 3px solid #4A4A4A;
+  box-shadow: 0 4px 0 rgba(139, 90, 43, 0.8);
+  transform: translateY(0);
+}
+
+.lbp-nav-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(139, 90, 43, 0.8);
+}
+
+.lbp-nav-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(139, 90, 43, 0.8);
+}
+
+.lbp-nav-button::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+}
+
+/* Game grid container - Two column side by side layout */
+.game-grid {
+  display: flex;
+  justify-content: space-around;
+  gap: 5rem;
+  padding: 1rem 1rem 2rem 1rem;
+  min-height: 450px;
+}
+
+.game-grid > * {
+  flex-basis: 40%;
+}
+
+/* Compact sections for no scrolling */
+.compact-section {
+  padding: 0.75rem 0;
+}
+
+/* Height constraints for main screen */
+.fallah-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure no space below footer */
+.fallah-app > footer {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Footer developer name styling */
+.footer-dev-name {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: rgb(var(--lbp-blue));
+  text-shadow: 
+    -2px -2px 0 white,
+    2px -2px 0 white,
+    -2px 2px 0 white,
+    2px 2px 0 white,
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.02em;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Enhanced footer buttons */
+.footer-button {
+  background-color: rgb(var(--lbp-blue));
+  color: white;
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 2px solid white;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 0;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.footer-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.footer-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.footer-button.support {
+  background-color: rgb(var(--lbp-green));
+}
+
+/* Main content padding to avoid footer overlap */
+.main-content-area {
+  padding-bottom: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+} 

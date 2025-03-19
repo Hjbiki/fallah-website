@@ -1,0 +1,31 @@
+{
+  "rewrites": [
+    { "source": "/hroof", "destination": "https://hroof-react.vercel.app" },
+    { "source": "/hroof/:path*", "destination": "https://hroof-react.vercel.app/:path*" },
+    { "source": "/questions", "destination": "https://questions-vite.vercel.app" },
+    { "source": "/questions/:path*", "destination": "https://questions-vite.vercel.app/:path*" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "devCommand": "npm run dev",
+  "cleanUrls": true
+} 
